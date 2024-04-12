@@ -1,7 +1,6 @@
 <?php
-// Establish database connection
 include '../settings/connection.php';
-
+// check_login();
 function displayUserRanks() {
     global $conn;
     

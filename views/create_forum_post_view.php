@@ -8,7 +8,20 @@
     <link rel="stylesheet" href="../templates/styles.css">
 </head>
 <body>
-    <div class="container">
+<div id="sidebar">
+        <h4>Navigation</h4>
+        <ul>
+            <li><a href="statistics_view.php"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="players.php"><i class="fas fa-users"></i> Players</a></li>
+            <li><a href="challenges.php"><i class="fas fa-trophy"></i> Challenges</a></li>
+            <li><a href="display_ranks_views.php"><i class="fas fa-home"></i> Rankings</a></li>
+            <li><a href="calendar.php"><i class="fas fa-users"></i> Calender</a></li>
+            <li><a href="conversations.php"><i class="fas fa-trophy"></i> Forum</a></li>
+            <li><a href="create_forum_post_view.php"><i class="fas fa-users"></i>Discuss</a></li>
+            <li><a href="players.php"><i class="fas fa-users"></i> Players</a></li>
+        </ul>
+</div>
+    <div class="container" style="margin-left:22%">
         <h1 class="mt-5 mb-4">Create Forum</h1>
         <form method="post" action="../actions/post_forum_post.php" enctype="multipart/form-data">
             <div class="form-group">

@@ -21,11 +21,10 @@ function updateRankings($player1_id, $player2_id, $result) {
     $loss_points = 0;
     $draw_points = 0.5;
 
-    // Determine points for each player based on the result
     $player1_points = $result === 'win' ? $win_points : ($result === 'loss' ? $loss_points : $draw_points);
     $player2_points = $result === 'win' ? $loss_points : ($result === 'loss' ? $win_points : $draw_points);
 
-    // Get current rankings
+
     $query1 = "SELECT ranking FROM User_Ranks WHERE user_id = $player1_id";
     $query2 = "SELECT ranking FROM User_Ranks WHERE user_id = $player2_id";
 
@@ -36,11 +35,9 @@ function updateRankings($player1_id, $player2_id, $result) {
         $row1 = mysqli_fetch_assoc($result1);
         $row2 = mysqli_fetch_assoc($result2);
 
-        //new rankings
         $new_ranking1 = $row1['ranking'] + $player1_points;
         $new_ranking2 = $row2['ranking'] + $player2_points;
 
-        // Insert rankings
         $insert_query1 = "INSERT INTO User_Ranks (user_id, ranking, date) VALUES ($player1_id, $new_ranking1, NOW())";
         $insert_query2 = "INSERT INTO User_Ranks (user_id, ranking, date) VALUES ($player2_id, $new_ranking2, NOW())";
 

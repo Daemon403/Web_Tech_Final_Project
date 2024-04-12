@@ -1,8 +1,7 @@
 <?php
 include '../settings/connection.php';
 
-// $memberId = $_SESSION['member_id']; // Assuming member is logged in and session is active
-$memberId = 2;
+$memberId = $_SESSION['member_id'];
 
 $sql = "SELECT COUNT(*) AS total_games,
                SUM(CASE WHEN result = 'win' THEN 1 ELSE 0 END) AS wins,

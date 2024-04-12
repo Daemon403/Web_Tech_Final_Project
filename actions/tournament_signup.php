@@ -1,10 +1,9 @@
 <?php
-// Establish database connection
 include '../settings/connection.php';
+check_login();
 
-// Get form data
 $tournamentId = $_POST['tournamentId'];
-$memberId = $_SESSION['member_id']; // Assuming member is logged in and session is active
+$memberId = $_SESSION['member_id']; 
 
 
 $sql = "INSERT INTO Tournament_Signups (tournament_id, member_id) VALUES ('$tournamentId', '$memberId')";

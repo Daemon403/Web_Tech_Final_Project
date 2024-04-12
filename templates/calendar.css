@@ -4,7 +4,6 @@ body {
     padding: 0;
 }
 
-/* Adjustments for FullCalendar */
 #calendar {
     max-width: 900px;
     margin: 0 auto;
@@ -78,21 +77,4 @@ body {
 
 .fc-event:hover {
     background-color: #218838;
-}
-
-/* Year view button */
-#yearViewBtn {
-    display: block;
-    margin: 20px auto;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-#yearViewBtn:hover {
-    background-color: #0056b3;
 }

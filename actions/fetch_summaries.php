@@ -1,7 +1,6 @@
 <?php
 include '../settings/connection.php';
-
-
+check_login();
 function getSummaries(){
     global $conn;
 

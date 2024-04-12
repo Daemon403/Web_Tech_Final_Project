@@ -1,6 +1,6 @@
 <?php
 include '../settings/connection.php';
-
+check_admin();
 function createTournament($name, $startDate, $endDate, $format, $creatorId) {
     global $conn;
     $query = "INSERT INTO Tournaments (tournament_name, start_date, end_date, format, creator_id) 

@@ -31,6 +31,5 @@ function viewAndApproveMembershipRequests() {
     }
 }
 
-// Call the function to view and approve membership requests
 viewAndApproveMembershipRequests();
 ?>

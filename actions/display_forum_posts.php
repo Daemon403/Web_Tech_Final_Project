@@ -1,70 +1,75 @@
 <?php
-// Establish database connection
+
 include '../settings/connection.php';
-
-
-// Handle post likes/upvotes
+include '../settings/core.php';
+check_login();
 if (isset($_POST['upvote_post'])) {
     $post_id = $_POST['post_id'];
     handlePostUpvote($post_id);
 }
 
-// Add comments to forum posts
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_comment'])) {
     $post_id = $_POST['post_id'];
     $comment_text = mysqli_real_escape_string($conn, $_POST['comment_text']);
     addComment($post_id, $comment_text);
 }
 
-// Handle comment replies
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_reply'])) {
     $comment_id = $_POST['comment_id'];
     $reply_text = mysqli_real_escape_string($conn, $_POST['reply_text']);
     addReply($comment_id, $reply_text);
 }
 
-// Retrieve and display forum posts
 function displayForumPosts() {
     global $conn;
     $query = "SELECT p.post_id, p.author_id, p.post_content, p.image, u.username 
-          FROM Forum_Posts p
-          JOIN Users u ON p.author_id = u.pid
-          ORDER BY p.created_at DESC"; 
+              FROM Forum_Posts p
+              JOIN Users u ON p.author_id = u.pid
+              ORDER BY p.created_at DESC"; 
 
     $result = mysqli_query($conn, $query);
 
     if ($result && mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
-            echo '<div class="card mb-3" style="background-color: #343a40;">';
-            echo '<div class="card-body">';
-            echo '<h5 class="card-title text-light">Author: ' . $row['username'] . '</h5>';
+            echo '<div class="tweet">';
+            echo '<div class="tweet-author">';
+            echo '<p class="author-name">' . $row['username'] . '</p>';
+            echo '</div>';
+            
+            echo '<div class="tweet-content">';
+            echo '<p class="content-text">' . $row['post_content'] . '</p>';
             
             if (!empty($row['image']) && file_exists($row['image'])) {
-                echo '<img src="' . $row['image'] . '" class="card-img-top img-fluid" alt="Post Image" style="width: 100%; height: 100px;">';
-            } else {
-
-                echo '<img src="../uploads/placeholder.png" class="card-img-top img-fluid" alt="Placeholder Image" style="width: 100%; height: 100px;">';
+                echo '<img src="' . $row['image'] . '" alt="Post Image" class="post-image">';
             }
-            echo '<p class="card-text text-light">' . $row['post_content'] . '</p>';
+            
+            echo '<div class="tweet-actions">';
             echo '<form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '">';
             echo '<input type="hidden" name="post_id" value="' . $row['post_id'] . '">';
-            echo '<button type="submit" name="upvote_post" class="btn btn-primary">Upvote</button>';
+            echo '<button type="submit" name="upvote_post" class="action-btn">Upvote</button>';
             echo '</form>';
             echo '</div>';
+            echo '</div>'; 
+            
 
             displayComments($row['post_id']);
-
-            echo '<div class="card-footer">';
+            
+            echo '<div class="tweet-footer">';
             echo '<form method="post" action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '">';
             echo '<input type="hidden" name="post_id" value="' . $row['post_id'] . '">';
-            echo '<textarea class="form-control mb-2" name="comment_text" placeholder="Add a comment"></textarea>';
-            echo '<button type="submit" name="submit_comment" class="btn btn-success">Post Comment</button>';
+            echo '<textarea class="comment-input" name="comment_text" placeholder="Add a comment"></textarea>';
+            echo '<button type="submit" name="submit_comment" class="comment-btn">Post Comment</button>';
             echo '</form>';
             echo '</div>'; 
+            
             echo '</div>'; 
         }
-    } 
+    } else {
+        echo "No posts found.";
+    }
 }
+
 function displayComments($post_id) {
     global $conn;
 
@@ -77,23 +82,23 @@ function displayComments($post_id) {
     $result = mysqli_query($conn, $query);
 
     if ($result && mysqli_num_rows($result) > 0) {
-        echo "<ul>";
+        echo '<div class="comments-section">';
         while ($row = mysqli_fetch_assoc($result)) {
-            echo "<li>";
-            echo "<p>Comment by: " . $row['username'] . "</p>";
-            echo "<p>" . $row['comment_text'] . "</p>";
+            echo '<div class="comment">';
+            echo '<p class="comment-author">' . $row['username'] . '</p>';
+            echo '<p class="comment-text">' . $row['comment_text'] . '</p>';
 
             echo "<form method='post' action='" . htmlspecialchars($_SERVER["PHP_SELF"]) . "'>";
             echo "<input type='hidden' name='comment_id' value='" . $row['comment_id'] . "'>";
-            echo "<textarea name='reply_text' placeholder='Add a reply'></textarea>";
-            echo "<button type='submit' name='submit_reply'>Reply</button>";
+            echo "<textarea class='reply-input' name='reply_text' placeholder='Add a reply'></textarea>";
+            echo "<button type='submit' name='submit_reply' class='reply-btn'>Reply</button>";
             echo "</form>";
 
             displayReplies($row['comment_id']);
 
-            echo "</li>";
+            echo '</div>';
         }
-        echo "</ul>";
+        echo '</div>';
     } else {
         echo "No comments found.";
     }
@@ -111,17 +116,18 @@ function displayReplies($comment_id) {
     $result = mysqli_query($conn, $query);
 
     if ($result && mysqli_num_rows($result) > 0) {
-        echo "<ul>";
+        echo '<div class="replies-section">';
         while ($row = mysqli_fetch_assoc($result)) {
-            echo "<li>";
-            echo "<p>Reply by: " . $row['username'] . "</p>";
-            echo "<p>" . $row['reply_text'] . "</p>";
-            echo "</li>";
+            echo '<div class="reply">';
+            echo '<p class="reply-author">' . $row['username'] . '</p>';
+            echo '<p class="reply-text">' . $row['reply_text'] . '</p>';
+            echo '</div>';
         }
-        echo "</ul>";
+        echo '</div>'; 
+    } else {
+        echo "No replies found.";
     } 
 }
-
 
 function handlePostUpvote($post_id) {
     global $conn;
@@ -133,10 +139,7 @@ function handlePostUpvote($post_id) {
 function addComment($post_id, $comment_text) {
     global $conn;
 
-    
-    //$commenter_id = $_SESSION['user_id'];
-    $commenter_id =1;
-
+    $commenter_id = 1; 
     $insert_query = "INSERT INTO Forum_Comments (post_id, commenter_id, comment_text) VALUES ('$post_id', '$commenter_id', '$comment_text')";
     mysqli_query($conn, $insert_query);
 }
@@ -144,10 +147,7 @@ function addComment($post_id, $comment_text) {
 function addReply($comment_id, $reply_text) {
     global $conn;
 
-    //$replier_id = $_SESSION['user_id'];
-    $replier_id =1;
-
-    
+    $replier_id = 1; 
     $insert_query = "INSERT INTO Comment_Replies (comment_id, replier_id, reply_text) VALUES ('$comment_id', '$replier_id', '$reply_text')";
     mysqli_query($conn, $insert_query);
 }

@@ -1,23 +1,32 @@
 <?php
 include '../settings/connection.php';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $firstname = $_POST['firstname'];
     $lastname = $_POST['lastname'];
-    $username = $_POST['gender'];
-    $dob = $_POST['dob'];
-    $telephone = $_POST['telephone'];
+    $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
 
 
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    $sql = "INSERT INTO Users (fname, lname,username,email,password,rid) VALUES ('$firstname', '$lastname','$username','$email','$password',1)";
-    if ($conn->query($sql) === TRUE) {
+    $sql = "INSERT INTO Users (fname, lname, username, email, password, rid) VALUES (?, ?, ?, ?, ?, 1)";
+    
+  
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssss", $firstname, $lastname, $username, $email, $hashed_password);
+   
+    if ($stmt->execute()) {
+
         echo "User registered successfully";
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+
+        echo "Error: " . $stmt->error;
     }
-    
+
+    // Close the statement and connection
+    $stmt->close();
     $conn->close();
 }
 ?>

@@ -1,7 +1,7 @@
 <?php
 
 include '../settings/connection.php';
-
+check_login();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     

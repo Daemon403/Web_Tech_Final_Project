@@ -4,26 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Tournaments</title>
-    <!-- Bootstrap CSS -->
-    
+
+    <link rel="stylesheet" type="text/css" href="../templates/styles.css" />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome for icons -->
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     
 </head>
 <body>
-    <!-- Sidebar -->
-    <div id="sidebar">
+
+<div id="sidebar">
         <h4>Navigation</h4>
         <ul>
-            <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-            <li><a href="#"><i class="fas fa-users"></i> Players</a></li>
-            <li><a href="#"><i class="fas fa-trophy"></i> Challenges</a></li>
-            <!-- Add more sidebar links as needed -->
+            <li><a href="statistics_view.php"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="players.php"><i class="fas fa-users"></i> Players</a></li>
+            <li><a href="challenges.php"><i class="fas fa-trophy"></i> Challenges</a></li>
+            <li><a href="display_ranks_views.php"><i class="fas fa-home"></i> Rankings</a></li>
+            <li><a href="calendar.php"><i class="fas fa-users"></i> Calender</a></li>
+            <li><a href="conversations.php"><i class="fas fa-trophy"></i> Forum</a></li>
+            <li><a href="create_forum_post_view.php"><i class="fas fa-users"></i>Discuss</a></li>
+            <li><a href="players.php"><i class="fas fa-users"></i> Players</a></li>
         </ul>
-    </div>
-    <div class="container">
+</div>
+    <div class="container" style="margin-left:22%">
         <h2>Create New Tournament</h2>
         <form id="createTournamentForm">
             <div class="form-group">
@@ -50,11 +54,10 @@
         </form>
     </div>
 
-    <!-- Bootstrap JavaScript -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
     $(document).ready(function() {
-        // Submit form data to create a new tournament
+
         $('#createTournamentForm').submit(function(e) {
             e.preventDefault();
             var formData = $(this).serialize();

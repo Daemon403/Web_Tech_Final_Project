@@ -4,30 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chess Club</title>
-    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="../templates/styles.css" />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-    <div class="container">
+<div id="sidebar">
+        <h4>Navigation</h4>
+        <ul>
+            <li><a href="statistics_view.php"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="players.php"><i class="fas fa-users"></i> Players</a></li>
+            <li><a href="challenges.php"><i class="fas fa-trophy"></i> Challenges</a></li>
+            <li><a href="display_ranks_views.php"><i class="fas fa-home"></i> Rankings</a></li>
+            <li><a href="calendar.php"><i class="fas fa-users"></i> Calender</a></li>
+            <li><a href="conversations.php"><i class="fas fa-trophy"></i> Forum</a></li>
+            <li><a href="create_forum_post_view.php"><i class="fas fa-users"></i>Discuss</a></li>
+            <li><a href="players.php"><i class="fas fa-users"></i> Players</a></li>
+        </ul>
+</div>
+    <div class="container" style="margin-left:22%">
         <h2 class="mt-4 mb-3">All Players</h2>
         <ul id="playersList" class="list-group"></ul>
     </div>
 
     <script>
-    // Function to fetch all players from the database
+  
     function getAllPlayers() {
         $.ajax({
             url: '../actions/get_players.php',
             type: 'GET',
             dataType: 'json',
             success: function(data) {
-                // Populate the players list
+                
                 var playersList = $('#playersList');
                 playersList.empty();
                 $.each(data, function(index, player) {
                     var listItem = $('<li>').addClass('list-group-item');
-                    // Display player's username and ranking
+                    
                     listItem.text(player.username + ' (Ranking: ' + player.ranking + ')');
                     var button = $('<button>').text('Challenge').addClass('btn btn-primary btn-sm float-right');
                     button.on('click', function() {
@@ -43,11 +56,9 @@
         });
     }
 
-    // Function to challenge a player
+   
     function challengePlayer(challengedId) {
-        var currentUserId = 1; // Assuming the current user ID is 1 (you can replace this with the actual user ID)
-        
-        // Send challenge request to challenge_player.php
+        var currentUserId = 1; 
         $.ajax({
             url: '../actions/challenge_player.php',
             type: 'POST',
@@ -66,13 +77,11 @@
         });
     }
 
-    // Load all players when the page loads
     $(document).ready(function() {
         getAllPlayers();
     });
     </script>
 
-    <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

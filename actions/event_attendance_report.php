@@ -1,9 +1,8 @@
 <?php
 // Establish database connection
 include '../settings/connection.php';
-
+check_login();
 $memberId = $_SESSION['member_id'];
-
 $sql = "SELECT e.event_name, e.event_date 
         FROM Event_Signups es
         JOIN Events e ON es.event_id = e.event_id
