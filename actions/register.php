@@ -16,10 +16,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("sssss", $firstname, $lastname, $username, $email, $hashed_password);
+
+
+
    
     if ($stmt->execute()) {
+        $user_id = $stmt->insert_id;
+        $sql2 = "INSERT INTO membership (user_id, membership_status) VALUES (?, 'pending')";
+        $stmt2 = $conn->prepare($sql2);
+        $stmt2->bind_param("i", $user_id);
 
-        echo "User registered successfully";
+        if ($stmt2->execute()) {
+            echo "User registered successfully and membership pending.";
+        } else {
+            echo "Error in membership registration: " . $stmt2->error;
+        }
+        $stmt2->close();
+
     } else {
 
         echo "Error: " . $stmt->error;

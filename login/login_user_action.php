@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] != "POST" || empty($_POST["username"]) || empty($
     die();
 }
 
-$email = $_POST["username"];
+$username = $_POST["username"];
 $password = $_POST["password"];
 
 $query = "SELECT * FROM users WHERE username = ?";
@@ -18,19 +18,19 @@ if (!$stmt) {
     die();
 }
 
-mysqli_stmt_bind_param($stmt, "s", $email);
+mysqli_stmt_bind_param($stmt, "s", $username);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
 if (mysqli_num_rows($result) == 0) {
-    header("Location: ../login/login_view.php?error=user_not_registered");
+    header("Location: ../views/login_view_view.php?error=user_not_registered");
     die();
 }
 
 $user = mysqli_fetch_assoc($result);
 
 if (!password_verify($password, $user['password'])) {
-    header("Location: ../login/login_view.php?error=incorrect_password");
+    header("Location: ../views/login_view_view.php?error=incorrect_password");
     die();
 }
 
@@ -42,6 +42,6 @@ $_SESSION['rid'] = $user['rid'];
 $_SESSION['valid'] = true;
 $_SESSION['timeout'] = time();
 
-header("Location: ../views/conversations.php");
+header("Location: ../views/statistics_view.php");
 die();
 ?>

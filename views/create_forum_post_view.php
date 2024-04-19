@@ -18,10 +18,11 @@
             <li><a href="calendar.php"><i class="fas fa-users"></i> Calender</a></li>
             <li><a href="conversations.php"><i class="fas fa-trophy"></i> Forum</a></li>
             <li><a href="create_forum_post_view.php"><i class="fas fa-users"></i>Discuss</a></li>
-            <li><a href="players.php"><i class="fas fa-users"></i> Players</a></li>
+            <li><a href="../views/schedule_game_view.php"><i class="fas fa-users"></i> Schedule Game</a></li>
+            <li><a href="../actions/view_requests.php"><i class="fas fa-users"></i> Membership Requests</a></li>
         </ul>
 </div>
-    <div class="container" style="margin-left:22%">
+    <div class="container" style="margin-left:48%">
         <h1 class="mt-5 mb-4">Create Forum</h1>
         <form method="post" action="../actions/post_forum_post.php" enctype="multipart/form-data">
             <div class="form-group">
